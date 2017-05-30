@@ -1,0 +1,6 @@
+apply plugin: 'application'
+
+mainClassName = 'tetris.Main'
+
+def defaultEncoding = 'UTF-8'
+tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
