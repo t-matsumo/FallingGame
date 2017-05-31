@@ -1,6 +1,5 @@
 package tetris.tetriminos;
 
-import tetris.field.Field;
 import tetris.position.Position;
 
 /**
@@ -51,7 +50,7 @@ public abstract class AbstractTetrimino {
   }
 
   public Boolean canTurn(int[][] field, int direction) {
-    int [][] nextShape = SHAPES[(usingShapeIndex + direction) % SHAPES.length];
+    int [][] nextShape = SHAPES[(SHAPES.length + usingShapeIndex + direction) % SHAPES.length];
     for (int y = 0; y < nextShape.length; y++) {
       for (int x = 0; x < nextShape[y].length; x++) {
         // 壁判定
@@ -77,7 +76,7 @@ public abstract class AbstractTetrimino {
    * @param direction 1順回転 -1逆回転
    */
   public void turn(int direction) {
-    usingShapeIndex = (usingShapeIndex + direction) % SHAPES.length;
+    usingShapeIndex = (SHAPES.length + usingShapeIndex + direction) % SHAPES.length;
   }
   
   public Position getPosition() {
