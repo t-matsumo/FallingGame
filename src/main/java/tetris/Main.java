@@ -81,6 +81,7 @@ public class Main implements Runnable {
     tetrimino = TetriminoGenerator.generateTetrimino();
   
     while (!(field.isGameOver(tetrimino))) {
+      field.banish();
       field.printOut(tetrimino);
       if (tetrimino.canMove(field.getField(), 0, 1)) {
         tetrimino.move(0, 1);

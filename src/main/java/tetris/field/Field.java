@@ -54,6 +54,26 @@ public class Field {
     }
   }
 
+  public void banish() {
+    for (int y = 3; y < field.length; y++) {
+      if (canBanish(field[y])) {
+        for (int moveY = y; moveY >= 3; moveY--) {
+          field[moveY] = field[moveY - 1];
+        }
+      }
+    }
+  }
+
+  private Boolean canBanish(int[] row) {
+    for (int element : row) {
+      if (element == 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   public int[][] getField() {
     return field;
   }
