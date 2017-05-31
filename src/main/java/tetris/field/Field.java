@@ -2,14 +2,15 @@ package tetris.field;
 
 import tetris.position.Position;
 import tetris.tetriminos.AbstractTetrimino;
-import tetris.tetriminos.TTetrimino;
 
 /**
  * Field
  */
 public class Field {
-  /** フィールドの縦のサイズ */
-  private static final int FIELD_HIGHT = 20;
+  /** フィールドの縦のサイズ
+   * 可視範囲 + 出現位置の3 マス
+   */
+  private static final int FIELD_HIGHT = 20 + 3;
   /** フィールドの横のサイズ */
   private static final int FIELD_WIDTH = 10;
   /** フィールド */
@@ -17,7 +18,7 @@ public class Field {
 
   /** ゲームオーバーの判定 */
   public Boolean isGameOver(AbstractTetrimino tetrimino) {
-    return !tetrimino.canMove(this, 0, 1)  && tetrimino.getPosition().getY() == -1;
+    return !tetrimino.canMove(field, 0, 1)  && tetrimino.getPosition().getY() == 0;
   }
 
   public void fixTetrimino(AbstractTetrimino tetrimino) {
@@ -37,13 +38,16 @@ public class Field {
     int[][] shape = tetrimino.getShape();
     Position position = tetrimino.getPosition();
     System.out.println("\f");
-    for (int y = 0; y < field.length; y++) {
+    for (int y = 3; y < field.length; y++) {
       for (int x = 0; x < field[y].length; x++) {
-        if (field[y][x] == 1) {
-          System.out.print(1);
-        // } else if(x == position.getX() && y == position.getY()) {
+        if (y >= position.getY()
+            && y < position.getY() + shape.length
+            && x >= position.getX()
+            && x < position.getX() + shape[0].length
+            && shape[y - position.getY()][x - position.getX()] == 1) {
+              System.out.print(shape[y - position.getY()][x - position.getX()]);
         } else {
-          System.out.print(0);
+          System.out.print(field[y][x]);
         }
       }
       System.out.println();

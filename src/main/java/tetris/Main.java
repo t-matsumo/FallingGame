@@ -16,9 +16,9 @@ public class Main {
     // テトリミノ
     AbstractTetrimino tetrimino = TetriminoGenerator.generateTetrimino();
   
-    while (field.isGameOver(tetrimino)) {
+    while (!(field.isGameOver(tetrimino))) {
       field.printOut(tetrimino);
-      if (tetrimino.canMove(field, 0, 1)) {
+      if (tetrimino.canMove(field.getField(), 0, 1)) {
         tetrimino.move(0, 1);
       } else {
         field.fixTetrimino(tetrimino);
@@ -26,9 +26,9 @@ public class Main {
       }
 
       try {
-        Thread.sleep(1000); 
+        Thread.sleep(250); 
       } catch(Exception e) {
-      
+        e.printStackTrace();
       }
     }
   }

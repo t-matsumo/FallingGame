@@ -22,9 +22,7 @@ public class ITetrimino extends AbstractTetrimino {
     }
   };
 
-  private static final Position INITIAL_POSITION = new Position(3, -1);
-
   public ITetrimino() {
-    super(I_SHAPES, INITIAL_POSITION);
+    super(I_SHAPES);
   }
 }

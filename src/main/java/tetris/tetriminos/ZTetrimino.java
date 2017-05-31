@@ -20,9 +20,7 @@ public class ZTetrimino extends AbstractTetrimino {
     }
   };
 
-  private static final Position INITIAL_POSITION = new Position(3, -1);
-
   public ZTetrimino() {
-    super(Z_SHAPES, INITIAL_POSITION);
+    super(Z_SHAPES);
   }
 }

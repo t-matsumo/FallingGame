@@ -1,7 +1,5 @@
 package tetris.tetriminos;
 
-import java.awt.Shape;
-
 import tetris.field.Field;
 import tetris.position.Position;
 
@@ -9,30 +7,36 @@ import tetris.position.Position;
  * AbstractTetrimino
  */
 public abstract class AbstractTetrimino {
-  /** テトリミノの形 */
-  private int[][][] shapes;
+  /** テトリミノの形の配列 */
+  private final int[][][] SHAPES;
   /** 現在使用中のテトリミノの形のインデックス */
   private int usingShapeIndex = 0;
   /** 位置 */
-  private Position position;
+  private Position position = new Position(3, 0);
 
-  protected AbstractTetrimino(int[][][] shapes, Position position) {
-    this.shapes = shapes;
-    this.position = position;
+  public AbstractTetrimino(int[][][] shapes) {
+    this.SHAPES = shapes;
   }
 
-  public Boolean canMove(Field field, int deltaX, int deltaY) {
-    Position nextPosition = new Position(position.getX() + deltaX, position.getY() + deltaY);
-    for (int y = 0; y < shapes[usingShapeIndex].length; y++) {
-      for (int x = 0; x < shapes[usingShapeIndex][y].length; x++) {
-        if (nextPosition.getY() + y > (field.getField()).length) {
-          return false;
+  public Boolean canMove(int[][] field, int deltaX, int deltaY) {
+    // 次の位置
+    final Position nextPosition = new Position(position.getX() + deltaX, position.getY() + deltaY);
+    // 現在の形
+    int[][] shape = this.SHAPES[usingShapeIndex];
+
+    for (int y = 0; y < shape.length; y++) {
+      for (int x = 0; x < shape[y].length; x++) {
+        // 壁判定
+        if (shape[y][x] == 1
+            && (nextPosition.getY() + y >= field.length
+            || nextPosition.getX() + x < 0
+            || nextPosition.getX() + x >= field[y].length)) {
+              return false;
         }
-        // 移動先が他のブロックとかぶっていない
-        if (nextPosition.getY() + y < 0) {
-          continue;
-        }
-        if ((field.getField())[nextPosition.getY() + y][nextPosition.getX() + x] == shapes[usingShapeIndex][y][x]) {
+
+        // 壁以外
+        if (shape[y][x] == 1
+            && field[nextPosition.getY() + y][nextPosition.getX() + x] == 1) {
           return false;
         }
       }
@@ -46,18 +50,21 @@ public abstract class AbstractTetrimino {
     position.setY(position.getY() + deltaY);
   }
 
-  public Boolean canTurn(Field field, int direction) {
-    int [][] nextShape = shapes[(usingShapeIndex + direction) % shapes.length];
+  public Boolean canTurn(int[][] field, int direction) {
+    int [][] nextShape = SHAPES[(usingShapeIndex + direction) % SHAPES.length];
     for (int y = 0; y < nextShape.length; y++) {
       for (int x = 0; x < nextShape[y].length; x++) {
-        if (nextShape[y][x] == 1 && position.getY() + y > (field.getField()).length) {
-          return false;
+        // 壁判定
+        if (nextShape[y][x] == 1
+            && (position.getY() + y >= field.length
+            || position.getX() + x < 0
+            || position.getX() + x >= field[y].length)) {
+              return false;
         }
-        // 回転先が他のブロックとかぶっていない
-        if (position.getY() + y < 0) {
-          continue;
-        }
-        if ((field.getField())[position.getY() + y][position.getX() + x] == nextShape[y][x]) {
+
+        // 壁以外
+        if (nextShape[y][x] == 1
+            && field[position.getY() + y][position.getX() + x] == 1) {
           return false;
         }
       }
@@ -70,14 +77,14 @@ public abstract class AbstractTetrimino {
    * @param direction 1順回転 -1逆回転
    */
   public void turn(int direction) {
-    usingShapeIndex = (usingShapeIndex + direction) % shapes.length;
+    usingShapeIndex = (usingShapeIndex + direction) % SHAPES.length;
+  }
+  
+  public Position getPosition() {
+    return this.position;
   }
 
   public int[][] getShape() {
-    return this.shapes[usingShapeIndex];
-  }
-
-  public Position getPosition() {
-    return this.position;
+    return this.SHAPES[usingShapeIndex];
   }
 }

@@ -20,9 +20,7 @@ public class OTetrimino extends AbstractTetrimino {
     }
   };
 
-  private static final Position INITIAL_POSITION = new Position(3, -1);
-
   public OTetrimino() {
-    super(O_SHAPES, INITIAL_POSITION);
+    super(O_SHAPES);
   }
 }

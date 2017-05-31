@@ -20,9 +20,7 @@ public class STetrimino extends AbstractTetrimino {
     }
   };
 
-  private static final Position INITIAL_POSITION = new Position(3, -1);
-
   public STetrimino() {
-    super(S_SHAPES, INITIAL_POSITION);
+    super(S_SHAPES);
   }
 }

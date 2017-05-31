@@ -29,10 +29,8 @@ public class JTetrimino extends AbstractTetrimino {
       {1, 1, 0}
     }
   };
-
-  private static final Position INITIAL_POSITION = new Position(3, -1);
   
   public JTetrimino() {
-    super(J_SHAPES, INITIAL_POSITION);
+    super(J_SHAPES);
   }
 }
